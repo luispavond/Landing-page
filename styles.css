@@ -13,7 +13,10 @@
     src: url(./fonts/Roboto/Roboto-Bold.ttf);
 }
 /* ---- reset ---- */
-
+a {
+    text-decoration: none !important;
+  }
+  
 body {
     margin: 0;
     font: normal 75% Arial, Helvetica, sans-serif;
@@ -128,14 +131,13 @@ img
 }
 .item a
 {
-    width: 20rem;
-    height: 6rem;
+    width: 25px;
+    height: 8px;
+    font-size: 20px;
     background: transparent;
     font-family: "Lato";
     text-transform: uppercase;
     color:#FFF;
-    border-radius: 100px;
-    border: 2px solid #FFF;
     cursor: pointer;
 }
 .item:nth-of-type(2)
@@ -201,4 +203,56 @@ nav .contenedor
     color:#FFF;
     outline: none;
     cursor: pointer;
+}
+
+/* (A) WHOLE PAGE */
+* { box-sizing: border-box; }
+body { 
+    height: 100vh;
+    background-color: #330909;
+    background: linear-gradient( 90deg ,#330909 0% , #CC8A85 100% );
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.gallery img {
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  object-fit: contain;
+  position: relative;
+}
+
+@media only screen and (max-width: 600px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.gallery img:hover {
+  z-index: 9;
+  transform: scale(1.3);
+  transition: transform ease 0.5s;
+}
+
+.gallery img.full {
+  position: fixed;
+  top: 0; left: 0; z-index: 999;
+  width: 100vw; height: 100vh;
+  object-fit: fit;
+  background: rgba(0, 0, 0, 0.7);
+}
+.gallery img.full:hover {
+  z-index: 999;
+  transform: none;
 }
