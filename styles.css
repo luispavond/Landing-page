@@ -91,8 +91,8 @@ img
 .containerHeader
 {
     height: 100vh;
-    background-color: blue;
-    background: linear-gradient( 90deg , #3a47d5 0% , #00d2ff 100% );
+    background-color: #330909;
+    background: linear-gradient( 90deg ,#330909 0% , #CC8A85 100% );
     display: flex;
     justify-content: center; 
     align-items: center;
