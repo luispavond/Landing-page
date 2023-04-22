@@ -408,6 +408,13 @@ function IsCollision(a, b, paddingTop, paddingRight, paddingBottom, paddingLeft)
     );
 }
 
+<button id="pauseButton">Pausa</button>
+let isPaused = false;
+
+document.getElementById("pauseButton").addEventListener("click", function() {
+  isPaused = !isPaused;
+});
+
 
 </script>
 </body>
