@@ -137,6 +137,25 @@ body{
     font-weight: 700;
 }
 
+button {
+    font-size: 16px;
+    padding: 12px 24px;
+    background-color: #333;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-out;
+    margin-right: 10px;
+  }
+  
+  button:hover {
+    background-color: #555;
+  }
+  
+
 @keyframes animarDino{
     from{
         background-position-x: -84px;
@@ -153,8 +172,12 @@ body{
 
     <div class="contenedor">
 
-        <button id="reiniciar" onclick="reiniciarJuego()">Reiniciar juego</button>
+        <button id="pausar" onclick="pausarJuego()">Pausa</button>
+        
+        <button id="reanudar" onclick="reanudarJuego()">Reanudar</button>
 
+        <button id="reiniciar" onclick="reiniciarJuego()" >Reiniciar</button>
+        
         <div class="dino dino-corriendo"></div>
 
         <div class="suelo"></div>
@@ -230,6 +253,15 @@ var dino;
 var textoScore;
 var suelo;
 var gameOver;
+var juegoPausado = false;
+
+    function pausarJuego() {
+        juegoPausado = true;
+    }
+
+    function reanudarJuego() {
+        juegoPausado = false;
+    }
 
 
     function Start() {
@@ -445,45 +477,17 @@ var gameOver;
         gameOver.style.display = 'none';
         textoScore.innerHTML = '0';
     }
-    function reiniciarJuego() {
-        // Restablecer variables del juego
-        sueloY = 22;
-        velY = 0;
-        impulso = 900;
-        gravedad = 2500;
-        dinoPosX = 42;
-        dinoPosY = sueloY;
-        sueloX = 0;
-        velEscenario = 1280/3;
-        gameVel = 1;
-        score = 0;
-        parado = false;
-        saltando = false;
-        tiempoHastaObstaculo = 2;
-        obstaculos = [];
-        tiempoHastaNube = 0.5;
-        nubes = [];
-        obstaculos = [];
 
-        document.querySelector('.score').textContent = score;
-        document.querySelector('.game-over').style.display = 'none';
-        document.querySelector('.dino').className = 'dino dino-corriendo';
-        MoverDinosaurio(); // Llamado a la función MoverDinosaurio
-    
-        // Eliminar obstáculos y nubes del juego
-        var obstaculosElement = document.querySelectorAll('.cactus, .cactus2');
-        obstaculosElement.forEach(function(elemento) {
-            elemento.parentNode.removeChild(elemento);
-        });
-        var nubesElement = document.querySelectorAll('.nube');
-        nubesElement.forEach(function(elemento) {
-            elemento.parentNode.removeChild(elemento);
-        });
-    
-        // Ocultar mensaje de Game Over y restablecer puntuación
-        gameOver.style.display = 'none';
-        textoScore.innerHTML = '0';
+
+    function Loop() {
+        deltaTime = (new Date() - time) / 1000;
+        time = new Date();
+        if (!juegoPausado) {
+            Update();
+        }
+        requestAnimationFrame(Loop);
     }
+    
         
 
 
