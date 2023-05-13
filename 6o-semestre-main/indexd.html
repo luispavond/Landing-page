@@ -248,12 +248,19 @@ var minNubeY = 100;
 var nubes = [];
 var velNube = 0.5;
 
-var contenedor;
-var dino;
-var textoScore;
-var suelo;
-var gameOver;
-var juegoPausado = false;
+// Variables globales
+var score = 0;
+
+var tiempoCactusAnterior = 0;
+var tiempoCactus = 0;
+
+var tiempoNubeAnterior = 0;
+var tiempoNube = 0;
+
+var juegoTerminado = false;
+var juegoPausado = false; // Agregamos esta variable
+
+
 
     function pausarJuego() {
         juegoPausado = true;
@@ -347,6 +354,15 @@ var juegoPausado = false;
             CrearNube();
         }
     }
+
+    function pausarJuego() {
+        juegoPausado = true;
+      }
+      
+      function reanudarJuego() {
+        juegoPausado = false;
+      }
+      
 
     function CrearObstaculo() {
         var obstaculo = document.createElement("div");
@@ -482,12 +498,35 @@ var juegoPausado = false;
     function Loop() {
         deltaTime = (new Date() - time) / 1000;
         time = new Date();
-        if (!juegoPausado) {
-            Update();
+        if (!juegoPausado) { // Agregamos esta condición
+          Update();
         }
         requestAnimationFrame(Loop);
-    }
-    
+      }
+      
+    document.addEventListener('keydown', function(event) {
+        if(event.code === 'Space') {
+          event.preventDefault();
+          if(juegoPausado) {
+            reanudarJuego();
+          } else {
+            saltarDino();
+          }
+        }
+      });
+      
+      document.addEventListener('keydown', function(event) {
+        if(event.code === 'KeyR') {
+          event.preventDefault();
+          reiniciarJuego();
+        }
+      });
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'p') {
+          pausarJuego();
+        }
+      });
+      
         
 
 
