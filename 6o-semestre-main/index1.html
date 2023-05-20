@@ -14,14 +14,39 @@
 
 body{
     height: 100vh;
-    background: #584040;
+    background: #b7d6c7;
     display: flex;
     align-items: center;
 }
 
+.button-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button-container button {
+    font-size: 16px;
+    padding: 12px 24px;
+    background-color: #333;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-out;
+    margin-right: 10px;
+}
+
+
 .contenedor {
-    width: 920px;
-    height: 280px;
+    width: 1300px;
+    height: 500px;
     margin: 0 auto;
     
     position: relative;
@@ -149,6 +174,8 @@ button {
     cursor: pointer;
     transition: background-color 0.2s ease-out;
     margin-right: 10px;
+    margin-top: 20px;
+    margin-left: 10px;
   }
   
   button:hover {
@@ -166,30 +193,19 @@ button {
 }
 
 
+
     </style>
 </head>
 <body>
-
     <div class="contenedor">
-
-        <button id="pausar" onclick="pausarJuego()">Pausa</button>
-        
-        <button id="reanudar" onclick="reanudarJuego()">Reanudar</button>
-
-        <button id="reiniciar" onclick="reiniciarJuego()" >Reiniciar</button>
-        
-        <div class="dino dino-corriendo"></div>
-
-        <div class="suelo"></div>
-
-        <div class="score">0</div>
-    
-
-    <div class="game-over">GAME OVER</div>
+      <button id="pausar" onclick="pausarJuego()">Pausa</button>
+      <button id="reanudar" onclick="reanudarJuego()">Reanudar</button>
+      <button id="reiniciar" onclick="reiniciarJuego()" style="display: none;">Reiniciar</button>
+      <div class="dino dino-corriendo"></div>
+      <div class="suelo"></div>
+      <div class="score">0</div>
+      <div class="game-over">GAME OVER</div>
     </div>
-
-   
-    
 
 <script>
 
@@ -212,9 +228,11 @@ function Init() {
 function Loop() {
     deltaTime = (new Date() - time) / 1000;
     time = new Date();
-    Update();
+    if (!juegoPausado) {
+      Update();
+    }
     requestAnimationFrame(Loop);
-}
+  }
 
 //****** GAME LOGIC ********//
 
@@ -300,13 +318,13 @@ var juegoPausado = false; // Agregamos esta variable
         }
     }
 
-    function Saltar(){
-        if(dinoPosY === sueloY){
-            saltando = true;
-            velY = impulso;
-            dino.classList.remove("dino-corriendo");
+    function Saltar() {
+        if (dinoPosY === sueloY) {
+          saltando = true;
+          velY = impulso;
+          dino.classList.remove("dino-corriendo");
         }
-    }
+      }
 
     function MoverDinosaurio() {
         dinoPosY += velY * deltaTime;
@@ -354,14 +372,6 @@ var juegoPausado = false; // Agregamos esta variable
             CrearNube();
         }
     }
-
-    function pausarJuego() {
-        juegoPausado = true;
-      }
-      
-      function reanudarJuego() {
-        juegoPausado = false;
-      }
       
 
     function CrearObstaculo() {
@@ -432,7 +442,10 @@ var juegoPausado = false; // Agregamos esta variable
     function GameOver() {
         Estrellarse();
         gameOver.style.display = "block";
-
+        document.getElementById("pausar").style.display = "none";
+        document.getElementById("reanudar").style.display = "none";
+        document.getElementById("reiniciar").style.display = "block";
+        document.getElementById("reiniciar").style.margin = "0 auto";
     }
 
     function DetectarColision() {
@@ -492,17 +505,14 @@ var juegoPausado = false; // Agregamos esta variable
         // Ocultar mensaje de Game Over y restablecer puntuación
         gameOver.style.display = 'none';
         textoScore.innerHTML = '0';
-    }
 
-
-    function Loop() {
-        deltaTime = (new Date() - time) / 1000;
-        time = new Date();
-        if (!juegoPausado) { // Agregamos esta condición
-          Update();
+            document.getElementById("pausar").style.display = "block";
+            document.getElementById("reanudar").style.display = "block";
+            document.getElementById("reiniciar").style.display = "none";
+            document.getElementById("reiniciar").style.margin = "0";
         }
-        requestAnimationFrame(Loop);
-      }
+    
+
       
     document.addEventListener('keydown', function(event) {
         if(event.code === 'Space') {
